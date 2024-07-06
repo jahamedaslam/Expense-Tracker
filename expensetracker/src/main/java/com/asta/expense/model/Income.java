@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -21,13 +22,16 @@ public class Income {
     private Long id;
 
     @Column(name = "INCOME_NAME")
-    private String name;
+    private String incomeName;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
     @Column(name = "AMOUNT")
     private BigDecimal amount;
+
+    @Column(name = "DATE")
+    private LocalDate date;
 
     @Column(name = "DELETED")
     private String deleted;

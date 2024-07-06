@@ -2,10 +2,11 @@ package com.asta.expense.service.appuser;
 
 import com.asta.expense.model.AppUser;
 
-import java.util.List;
+import java.util.Optional;
 
 public interface AppUserService {
 
-    List<AppUser> findAllAppUser();
+    AppUser saveAppUser(AppUser appUser);
+    Optional<AppUser> getAppUserByUsername(String userName);
 
 }

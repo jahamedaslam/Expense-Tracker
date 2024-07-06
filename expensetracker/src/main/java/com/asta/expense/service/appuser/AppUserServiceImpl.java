@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -15,8 +15,14 @@ public class AppUserServiceImpl implements AppUserService {
     @Autowired
     private AppUserRepository appUserRepository;
 
+
     @Override
-    public List<AppUser> findAllAppUser() {
-        return appUserRepository.findAll();
+    public AppUser saveAppUser(AppUser appUser) {
+        return appUserRepository.save(appUser);
+    }
+
+    @Override
+    public Optional<AppUser> getAppUserByUsername(String username) {
+        return appUserRepository.findByUsername(username);
     }
 }

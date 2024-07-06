@@ -19,8 +19,8 @@ public class AppUser {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "USER_NAME")
-    private String userName;
+    @Column(name = "USERNAME")
+    private String username;
 
     @Column(name = "NAME")
     private String name;
