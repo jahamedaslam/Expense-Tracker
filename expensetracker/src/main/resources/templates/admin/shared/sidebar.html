@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<aside id="sidebar" class="sidebar" th:fragment="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+<!--        <li class="nav-item">-->
+<!--            <a class="nav-link" th:classappend="${dashboardActive}" th:href="@{/admin/}">-->
+<!--                <i class="bi bi-grid"></i>-->
+<!--                <span>Dashboard</span>-->
+<!--            </a>-->
+<!--        </li>&lt;!&ndash; End Dashboard Nav &ndash;&gt;-->
+
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${articleAddActive}" th:href="@{/article/add}">
+                <i class="bi bi-newspaper"></i>
+                <span>Add Aritcle</span>
+            </a>
+        </li><!-- End Profile Page Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link"  th:classappend="${articleListActive}"  th:href="@{/article/list}">
+                <i class="bi bi-list"></i>
+                <span>List Article</span>
+            </a>
+        </li><!-- End F.A.Q Page Nav -->
+    </ul>
+</aside><!-- End Sidebar-->
+</html>

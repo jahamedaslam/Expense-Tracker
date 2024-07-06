@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{admin/layout}" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    th:with="navheading='ArticleList' ,dashboardActive='collapsed',articleAddActive='collapsed'">
+
+<head>
+    <title>Article - UBAT- Uthman Bin Affan Trust</title>
+</head>
+<th:block layout:fragment="content">
+
+
+    <div class="pagetitle">
+        <h1>Article List</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Article List</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+        <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    <!-- Default Tabs -->
+                    <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
+                        <li class="nav-item flex" role="presentation">
+                            <a th:href="@{/article/list}">
+                                <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab"
+                                    data-bs-target="#home-justified" type="button" role="tab" aria-controls="home"
+                                    aria-selected="true">Article List</button>
+                            </a>
+                        </li>
+                        <li class="nav-item flex" role="presentation">
+                            <a th:href="@{/article/archive-list}">
+                                <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab"
+                                    data-bs-target="#profile-justified" type="button" role="tab" aria-controls="profile"
+                                    aria-selected="false">Archive List</button></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-12">
+                    <h5 class="card-title"></h5>
+
+
+                    <table class="table justify-content-center">
+                        <thead>
+                            <tr style="text-align: center;">
+                                <th scope="col">S.NO</th>
+                                <th scope="col">Article Name</th>
+                                <th scope="col">Content</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="text-align: center;" th:each="article, item : ${articles}">
+                                <td th:text="${item.index + 1}"></td>
+                                <td th:text="${article.title}"></td>
+                                <td>
+                                    <i th:switch="${article.mediaType}">
+                                        <i th:case="'T'" class="bi bi-newspaper media-icon" th:data-id="${article.id}" data-media-type="text" onclick="showPopup(this)"></i>
+                                        <i th:case="'I'" class="bi bi-image media-icon" th:data-id="${article.id}" data-media-type="image"onclick="showPopup(this)"></i>
+                                        <i th:case="'A'" class="bi bi-music-note media-icon" th:data-id="${article.id}" data-media-type="audio"onclick="showPopup(this)"></i>
+                                        <i th:case="'V'" class="bi bi-camera-video media-icon" th:data-id="${article.id}" data-media-type="video"onclick="showPopup(this)"></i>
+                                    </i>
+                                </td>
+                                <td id="statusCell" th:switch="${article.status}">
+                                    <span th:case="'D'" class="badge bg-warning">DRAFT</span>
+                                    <span th:case="'P'" class="badge bg-success">PUBLISH</span>
+                                </td>
+                                <td class="text-primary action-td" th:switch="${article.status}">
+                                    <btn th:case="'DR'" class="btn btn btn-outline-success btn-round btn-icon"
+                                        data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Publish"
+                                        th:data-id="${article.id}" onclick="publishArticle(this)">
+                                        <i class="bi bi-send" aria-hidden="true"></i>
+                                    </btn>
+                                    <a th:href="@{/article/{id}/edit(id = ${article.id})}" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Edit"
+                                        class="btn btn btn-outline-primary btn-round btn-icon">
+                                        <i class="bi bi-pencil"></i></a>
+                                    <btn class="btn btn btn-outline-danger btn-round btn-icon" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Archive" th:data-id="${article.id}"
+                                        onclick="archiveArticle(this)">
+                                        <i class="bi bi-archive" aria-hidden="true"></i>
+                                    </btn>
+                                    <btn class="btn btn btn-outline-danger btn-round btn-icon" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Delete" th:data-id="${article.id}"
+                                        onclick="deleteArticle(this)">
+                                        <i class="bi bi-trash" aria-hidden="true"></i>
+                                    </btn>
+                                </td>
+                                <td th:switch="${article.mediaType}" style="display:none;">
+                                    <img th:id="@{'content'+${article.id}}"  th:case="'I'" th:src="@{'data:image/jpeg;base64,'+${article.generateBase64Image()}}" height="560px" width="315px">
+                                    <audio th:id="@{'content'+${article.id}}"  controls th:case="'A'">
+                                        <source th:src="@{'data:audio/mpeg;base64,' + ${article.generateBase64Audio()}}" type="audio/mpeg">
+                                        Your browser does not support the audio element.
+                                    </audio>
+                                    <div th:id="@{'content'+${article.id}}"  th:case="'T'" th:text="${article.textContent}"></div>
+                                    <iframe th:id="@{'content'+${article.id}}"  th:case="'V'" width="560px" height="315px" th:src="${article.url}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(articles)}">
+                                <td colspan="5">
+                                    <div class="d-flex justify-content-center">
+                                        No record available
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        </div>
+        </div>
+    </section>
+
+
+
+</th:block>
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        function deleteArticle(obj) {
+            var url = $(obj).data('id') + '/delete';
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#9831B0',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        success: function () {
+                            $(obj).parent('td.action-td').parent('tr').remove();
+
+                            Swal.fire(
+                                'Deleted!',
+                                'Your form has been deleted.',
+                                'success'
+                            );
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            Swal.fire(
+                                'Oops!',
+                                'Somthing went wrong.',
+                                'error'
+                            );
+                        }
+                    });
+                } else {
+                    return;
+                }
+            });
+
+            $(document).ready(function () {
+                $('#article-table').DataTable();
+            });
+
+        }
+
+        function publishArticle(obj) {
+            var url = $(obj).data('id') + '/publish';
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#9831B0',
+                confirmButtonText: 'Yes, publish it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        success: function () {
+                            $('#statusCell').html('<span class="badge bg-success">PUBLISH</span');
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1000);
+                            Swal.fire(
+                                'Published!',
+                                'Your article has been published.',
+                                'success'
+                            );
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            Swal.fire(
+                                'Oops!',
+                                'Somthing went wrong.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+                else {
+                    return;
+                }
+            });
+            $(document).ready(function () {
+                $('#article-table').DataTable();
+            });
+        }
+
+        function archiveArticle(obj) {
+            var url = $(obj).data('id') + '/archive';
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#9831B0',
+                confirmButtonText: 'Yes, archive it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        success: function () {
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1000);
+                            Swal.fire(
+                                'Archived!',
+                                'Your article has been archived.',
+                                'success'
+                            );
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            Swal.fire(
+                                'Oops!',
+                                'Somthing went wrong.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+                else {
+                    return;
+                }
+            });
+            $(document).ready(function () {
+                $('#article-table').DataTable();
+            });
+        }
+
+
+    </script>
+
+<script th:inline="javascript">
+    function showPopup(obj) {
+        var id = $(obj).data('id')
+        var content = document.getElementById('content'+id).cloneNode(true);
+
+        Swal.fire({
+            html: content,
+            showCloseButton: true,
+            showConfirmButton: false,
+            focusConfirm: false,
+        });
+    }
+</script>
+</th:block>
+</html>

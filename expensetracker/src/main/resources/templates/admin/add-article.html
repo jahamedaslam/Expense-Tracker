@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{admin/layout}" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    th:with="navheading='AddArticle' ,dashboardActive='collapsed',articleListActive='collapsed'">
+
+<head>
+    <title>Add Article - UBAT- Uthman Bin Affan Trust</title>
+    <style>
+   .error-message {
+        color: 	#DC3545;
+        margin-top: 2px;
+    }
+    </style>
+</head>
+<th:block layout:fragment="content">
+    <div class="pagetitle">
+        <h1>Create Article</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">create article</li>
+            </ol>
+        </nav>
+    </div>
+    <section class="section">
+        <div class="row">
+            <div class="col-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Article Form</h5>
+
+                            <form th:action="@{/article/post}" method="post" th:object="${articleForm}"
+                                enctype="multipart/form-data" id="articleForm">
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label" for="title">Title</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="Please Enter Title..."
+                                            th:field="*{title}" id="title">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label" for="description">Description</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" style="height: 100px"
+                                            placeholder="Please Enter Description.." id="description"
+                                            th:field="*{description}"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Category</label>
+                                    <div class="col-sm-10">
+                                        <select id="category" name="category" class="form-select" aria-label="Default select Category"
+                                            th:field="*{category}">
+                                            <th:block th:each="category: ${categoryOptions}">
+                                                <option th:value="${category.value}" th:text="${category.text}"></option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Sub Category</label>
+                                    <div class="col-sm-10">
+                                        <select id="subCategory"  class="form-select" aria-label="Default select Subcategory"
+                                            th:field="*{subCategory}">
+                                            <th:block th:each="subCategory: ${subCategoryOptions}">
+                                                <option th:value="${subCategory.value}" th:text="${subCategory.text}">
+                                                </option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <fieldset class="row mb-3">
+                                    <legend class="col-form-label col-sm-2 pt-0" th:field="*{mediaType}" id="media-type">Media Type</legend>
+                                    <div class="col-sm-10">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input media-type" type="radio" name="mediaType"
+                                                th:value="T" id="gridRadios1" >
+                                            <label class="form-check-label" for="gridRadios1">
+                                                Text
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input media-type" type="radio" name="mediaType"
+                                                th:value="A" id="gridRadios2" >
+                                            <label class="form-check-label" for="gridRadios2">
+                                                Audio
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input media-type" type="radio" name="mediaType"
+                                                th:value="V" id="gridRadios3" >
+                                            <label class="form-check-label" for="gridRadios3">
+                                                Video
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input media-type" type="radio" name="mediaType"
+                                                th:value="I" id="gridRadios4">
+                                            <label class="form-check-label" for="gridRadios4">
+                                                Image
+                                            </label>
+
+                                        </div>
+                                        <div id="mediaTypeErrorMessage" class="text-danger"></div>
+                                    </div>
+                                </fieldset>
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label" id="textLabel">Text Content</label>
+                                    <label class="col-sm-2 col-form-label" id="videoLabel">Video Link</label>
+                                    <label class="col-sm-2 col-form-label" id="fileLabel">File Upload</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="Please Paste Your Url..."
+                                            th:field="*{url}" id="url">
+                                        <textarea class="form-control" style="height: 100px"
+                                            placeholder="Enter Text Content..." id="textContent"
+                                            th:field="*{textContent}"></textarea>
+                                        <input class="form-control" type="file" id="formFile" name="file">
+                                        <div id="fileErrorMessage" class="text-danger"></div>
+                                        <input class="form-control" type="hidden" id="status" th:field="*{status}">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3 mt-4" style="justify-content: end;">
+                                    <div class="col-sm-10">
+                                        <button type="submit" class="btn btn-primary pull-right" id="saveDraftButton">Save
+                                            As Draft</button>
+                                        <button type="submit" class="btn btn-success pull-right" id="publishButton">Save &
+                                            Publish</button>
+                                        <button type="button" id="cancelButton"
+                                            class="btn btn-danger pull-right">Cancel</button>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+</th:block>
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        const textRadio = document.getElementById('gridRadios1');
+        const audioRadio = document.getElementById('gridRadios2');
+        const videoRadio = document.getElementById('gridRadios3');
+        const imageRadio = document.getElementById('gridRadios4');
+        const textContent = document.getElementById('text-content');
+        const mediaType = document.getElementById('formFile');
+
+         if (textRadio && audioRadio && videoRadio && imageRadio && textContent && mediaType) {
+            textRadio.addEventListener('change', () => {
+            textContent.disabled = false;
+            mediaType.disabled = true;
+        });
+
+        [audioRadio, videoRadio, imageRadio].forEach(radio => {
+            radio.addEventListener('change', () => {
+                textContent.disabled = true;
+                mediaType.disabled = false;
+            });
+        });
+    }
+});
+    </script>
+    <script th:inline="javascript">
+        const categorySelect = document.getElementById("category");
+        const subCategorySelect = document.getElementById("subCategory");
+        const categoryOptions = [
+            { value: "0", text: "Please Select Category.." },
+            { value: "Kuthuba", text: "Kuthuba" },
+            { value: "Kitab", text: "Kitab" },
+            { value: "Ibadah", text: "Ibadah" },
+            { value: "Purification", text: "Purification" },
+            { value: "FamilySociety", text: "Family Society" },
+            { value: "Biography", text: "Biography" },
+            { value: "Others", text: "Others" },
+        ];
+        const subCategoryOptions = {
+            "Kuthuba": [
+                { value: "0", text: "Please Select Sub Category.." },
+                { value: "Jummah", text: "Jummah" },
+                { value: "Nikkah", text: "Nikkah" },
+                { value: "Funeral", text: "Funeral" },
+                { value: "Publiclecture", text: "Public Lecture" },
+            ],
+            "Kitab": [
+                { value: "0", text: "Please Select Sub Category.." },
+                { value: "Aqeedha", text: "Aqeedha" },
+                { value: "Manhaj", text: "Manhaj" },
+                { value: "Fiqh", text: "Fiqh" },
+                { value: "Hadeeth", text: "Hadeeth" },
+                { value: "Tafseer", text: "Tafseer" },
+            ],
+            "Ibadah": [
+                { value: "0", text: "Please Select Sub Category..." },
+                { value: "Prayer", text: "Prayer" },
+                { value: "Zakath", text: "Zakath" },
+                { value: "Hajj", text: "Hajj" },
+                { value: "Umrah", text: "Umrah" },
+                { value: "Fasting", text: "Fasting" },
+                { value: "Dhikr", text: "Dhikr" },
+            ],
+            "Purification": [
+                { value: "0", text: "Please Select Sub Category..." },
+                { value: "Heart", text: "Heart" },
+                { value: "Tawbah", text: "Tawbah" },
+                { value: "Taqwa", text: "Taqwa" },
+                { value: "Istigfar", text: "Istigfar" },
+            ],
+            "FamilySociety": [
+                { value: "0", text: "Please Select Sub Category..." },
+                { value: "Men", text: "Men" },
+                { value: "Women", text: "Women" },
+                { value: "Children", text: "Children" },
+                { value: "Family", text: "Family" },
+                { value: "Society", text: "Society" },
+                { value: "Political", text: "Political" },
+            ],
+            "Biography": [
+                { value: "0", text: "Please Select Sub Category..." },
+                { value: "Prophets", text: "Prophets" },
+                { value: "Sahabha", text: "Sahabha" },
+                { value: "Ulama", text: "Ulama" },
+            ],
+            "Others": [
+                { value: "others", text: "others" },
+            ],
+
+        };
+
+        categoryOptions.forEach((option) => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option.value;
+            optionElement.textContent = option.text;
+            categorySelect.appendChild(optionElement);
+        });
+        categorySelect.addEventListener("change", () => {
+            const selectedCategoryValue = categorySelect.value;
+            subCategorySelect.innerHTML = "";
+
+            if (selectedCategoryValue in subCategoryOptions) {
+                subCategoryOptions[selectedCategoryValue].forEach((option) => {
+                    const optionElement = document.createElement("option");
+                    optionElement.value = option.value;
+                    optionElement.textContent = option.text;
+                    subCategorySelect.appendChild(optionElement);
+                });
+            } else {
+                const defaultOption = document.createElement("option");
+                defaultOption.value = "";
+                defaultOption.textContent = "Select Subcategory.";
+                subCategorySelect.appendChild(defaultOption);
+            }
+        });
+
+        categorySelect.dispatchEvent(new Event("change"));
+    </script>
+    <script th:inline="javascript">
+        const saveDraftButton = document.getElementById('saveDraftButton');
+        const publishButton = document.getElementById('publishButton');
+        const cancelButton = document.getElementById('cancelButton');
+
+        cancelButton.addEventListener('click', function () {
+            window.history.back();
+        });
+        saveDraftButton.addEventListener('click', function () {
+            document.getElementById('status').value = "D";
+        });
+
+        publishButton.addEventListener('click', function () {
+            document.getElementById('status').value = "P";
+        });
+    </script>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            $("#textLabel,#videoLabel,#fileLabel,#textContent, #url,#formFile").hide();
+
+            $(".media-type").change(function () {
+                var selectedValue = $(this).val();
+                $("#textContent, #url").hide();
+
+                if (selectedValue === "T") {
+                    $("#videoLabel,#fileLabel, #url,#formFile").hide();
+                    $("#textContent, #textLabel").show();
+                } else if (selectedValue === "V") {
+                    $("#textLabel,#fileLabel,#textContent,#formFile").hide();
+                    $("#url,#videoLabel").show();
+                }
+                else if (selectedValue === "A") {
+                    $("#textLabel,#videoLabel,#textContent,#url").hide();
+                    $("#fileLabel,#formFile").show();
+                }
+                else if (selectedValue === "I") {
+                    $("#textLabel,#videoLabel,#textContent,#url").hide();
+                    $("#fileLabel,#formFile").show();
+                }
+            });
+        });
+    </script>
+    <script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('articleForm');
+        const fileInput = document.getElementById('formFile');
+        const fileErrorMessage = document.getElementById('fileErrorMessage');
+        const mediaTypeErrorMessage = document.getElementById('mediaTypeErrorMessage');
+
+        form.addEventListener('submit', function (event) {
+            clearErrorMessages();
+
+            validateField('title', 'Please enter a title', event);
+            validateField('description', 'Please enter a description', event);
+            validateSelect('category', 'Please select a category', event);
+            validateSelect('subCategory', 'Please select a subcategory', event);
+            validateRadio('mediaType', 'Please select a media type', event);
+
+            const mediaType = document.querySelector('input[name="mediaType"]:checked');
+
+            if (!mediaType) {
+                mediaTypeErrorMessage.textContent = 'Please select a media type';
+                event.preventDefault();
+            } else {
+                const mediaTypeValue = mediaType.value;
+
+                if (mediaTypeValue === 'T') {
+                    validateField('textContent', 'Please enter text content', event);
+                } else if (mediaTypeValue === 'V') {
+                    validateField('url', 'Please enter a video link', event);
+                } else if (mediaTypeValue === 'A' || mediaTypeValue === 'I') {
+                    validateFile('formFile', mediaTypeValue, event);
+                }
+            }
+        });
+
+        function clearErrorMessages() {
+            document.querySelectorAll('.error-message').forEach(function (error) {
+                error.remove();
+            });
+            fileErrorMessage.textContent = '';
+            mediaTypeErrorMessage.textContent = '';
+        }
+
+        function validateFile(fieldId, mediaType, event) {
+            const fileName = document.getElementById(fieldId).value.trim();
+
+            if (fileName === '' && mediaType === 'A') {
+                appendErrorMessage(fieldId, 'Please select an audio file', event);
+            } else if (fileName === '') {
+                appendErrorMessage(fieldId, 'Please upload a file', event);
+            } else {
+                // Additional file type validation based on the selected media type
+                if ((mediaType === 'A' && !fileName.endsWith('.mp3')) ||
+                    (mediaType === 'I' && !fileName.match(/\.(jpg|jpeg|png|gif)$/))) {
+                    appendErrorMessage(fieldId, `Please select a valid ${mediaType.toLowerCase()} file`, event);
+                }
+            }
+        }
+
+        function appendErrorMessage(fieldId, errorMessage, event) {
+    const field = document.getElementById(fieldId);
+
+    if (field) {
+        const errorMessageElement = document.createElement('p');
+        errorMessageElement.className = 'error-message';
+        errorMessageElement.textContent = errorMessage;
+        field.insertAdjacentElement('afterend', errorMessageElement);
+    }
+
+    event.preventDefault();
+}
+
+        function validateField(fieldId, errorMessage, event) {
+            const fieldValue = document.getElementById(fieldId).value.trim();
+
+            if (fieldValue === '') {
+                appendErrorMessage(fieldId, errorMessage, event);
+            }
+             if (fieldId === 'url' && !isValidYouTubeUrl(fieldValue)) {
+                appendErrorMessage(fieldId, 'Please enter a valid YouTube URL', event);
+            }
+        }
+        function isValidYouTubeUrl(url) {
+            const youtubeRegex = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/;
+            return youtubeRegex.test(url);
+        }
+
+        function validateSelect(fieldId, errorMessage, event) {
+            const fieldValue = document.getElementById(fieldId).value;
+
+            if (fieldValue === null || fieldValue === '' || fieldValue === '0') {
+                appendErrorMessage(fieldId, errorMessage, event);
+            }
+        }
+
+        function validateRadio(fieldName, errorMessage, event) {
+            const fieldValue = document.querySelector(`input[name="${fieldName}"]:checked`);
+
+            if (!fieldValue) {
+                appendErrorMessage(fieldName, errorMessage, event);
+            }
+        }
+
+        document.querySelectorAll('input, textarea, select').forEach(function (element) {
+            element.addEventListener('change', function () {
+                const errorMessages = this.parentNode.querySelectorAll('.error-message');
+                errorMessages.forEach(function (error) {
+                    error.remove();
+                });
+            });
+        });
+    });
+</script>
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('articleForm');
+        const mediaTypeErrorMessage = document.getElementById('mediaTypeErrorMessage');
+
+        form.addEventListener('submit', function (event) {
+            clearErrorMessages();
+
+            validateRadio('mediaType', 'Please select a media type', event);
+        });
+
+        function clearErrorMessages() {
+            mediaTypeErrorMessage.textContent = '';
+        }
+
+        function validateRadio(fieldName, errorMessage, event) {
+            const fieldValue = document.querySelector(`input[name="${fieldName}"]:checked`);
+
+            if (!fieldValue) {
+                mediaTypeErrorMessage.textContent = errorMessage;
+                event.preventDefault();
+            }
+        }
+    });
+    </script>
+
+    <script th:inline ="javascript">
+
+    </script>
+
+</th:block>
+
+</html>

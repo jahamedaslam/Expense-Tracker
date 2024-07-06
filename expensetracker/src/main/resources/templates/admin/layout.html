@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+
+
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">
+        NabiVali-Admin
+    </title>
+
+
+    <link th:href="@{/assets/img/logo.jpg}" rel="icon">
+    <link th:href="@{/assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/assets/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
+    <link th:href="@{/assets/vendor/quill/quill.snow.css}" rel="stylesheet">
+    <link th:href="@{/assets/vendor/quill/quill.bubble.css}" rel="stylesheet">
+    <link th:href="@{/assets/vendor/remixicon/remixicon.css}" rel="stylesheet">
+    <link th:href="@{/assets/vendor/simple-datatables/style.css}" rel="stylesheet">
+    <link th:href="@{/assets/css/style.css}" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+
+    <th:block layout:fragment="stylesheet"></th:block>
+</head>
+
+<body>
+
+    <header id="header" class="header fixed-top d-flex align-items-center" th:replace="admin/shared/header :: header">
+        ...</header>
+    <aside id="sidebar" class="sidebar" th:replace="admin/shared/sidebar :: sidebar">...</aside>
+    <main id="main" class="main">
+        <th:block layout:fragment="content">..</th:block>
+    </main>
+    <th:block th:replace="admin/shared/footer :: footer">...</th:block>
+
+
+
+    <script th:src="@{/assets/vendor/apexcharts/apexcharts.min.js}"></script>
+    <script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/assets/vendor/echarts/echarts.min.js}"></script>
+    <script th:src="@{/assets/vendor/quill/quill.min.js}"></script>
+    <script th:src="@{/assets/vendor/simple-datatables/simple-datatables.js}"></script>
+    <script th:src="@{/assets/vendor/tinymce/tinymce.min.js}"></script>
+    <script th:src="@{/assets/vendor/php-email-form/validate.js}"></script>
+    <!-- Template Main JS File -->
+    <script th:src="@{/assets/js/main.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <th:block layout:fragment="script">
+    </th:block>
+</body>
+
+</html>
