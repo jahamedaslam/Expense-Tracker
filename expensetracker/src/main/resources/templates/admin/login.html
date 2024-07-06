@@ -48,7 +48,7 @@
                             <div class="d-flex justify-content-center py-4">
                                 <a th:href="@{/article/list}" class="logo d-flex align-items-center w-auto">
                                     <img th:src="@{/assets/img/logo.png}" alt="">
-                                    <span class="d-none d-lg-block">UBAT</span>
+                                    <span class="d-none d-lg-block">Expense Tracker</span>
                                 </a>
                             </div><!-- End Logo -->
 
@@ -60,13 +60,13 @@
                                         <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
                                     </div>
 
-                                    <form class="row g-3" th:action="@{/login}" method="post">
+                                    <form class="row g-3" th:action="@{/login}" th:object="${loginForm}" method="post">
 
                                         <div class="col-12">
                                             <label for="yourUsername" class="form-label">Username</label>
                                             <div class="input-group has-validation">
                                                 <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                                <input type="text" name="username" class="form-control"
+                                                <input type="text" name="username" class="form-control" th:field="*{username}"
                                                     id="yourUsername" required>
                                                 <div class="invalid-feedback">Please enter your username.</div>
                                             </div>
@@ -74,7 +74,7 @@
 
                                         <div class="col-12">
                                             <label for="yourPassword" class="form-label">Password</label>
-                                            <input type="password" name="password" class="form-control"
+                                            <input type="password" name="password" class="form-control" th:field="*{password}"
                                                 id="yourPassword" required>
                                             <div class="invalid-feedback">Please enter your password!</div>
                                         </div>
@@ -87,7 +87,7 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <a th:href="@{/article/list}"><button type="submit"
+                                            <a th:href="@{/dashboard}"><button type="submit"
                                                     class="btn btn-primary ml-5">Login</button></a>
                                         </div>
                                         <div class="col-12">

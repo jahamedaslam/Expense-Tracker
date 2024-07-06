@@ -3,10 +3,12 @@ package com.asta.expense.controller;
 import com.asta.expense.mapper.AppUserMapper;
 import com.asta.expense.model.AppUser;
 import com.asta.expense.payload.dto.AppUserForm;
+import com.asta.expense.payload.dto.LoginForm;
 import com.asta.expense.service.appuser.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,12 +31,16 @@ public class AuthController {
 
 
     @GetMapping("/")
-    public String getLogin() {
+    public String getLogin(Model model) {
+        LoginForm loginForm = new LoginForm();
+        model.addAttribute("loginForm", loginForm);
         return LOGIN;
     }
 
     @GetMapping("/register")
-    public String getRegister() {
+    public String getRegister(Model model) {
+        AppUserForm appUserForm = new AppUserForm();
+        model.addAttribute("registerForm", appUserForm);
         return REGISTER;
     }
 
@@ -44,7 +50,7 @@ public class AuthController {
         AppUser appUser = appUserMapper.map(appUserForm);
         appUserService.saveAppUser(appUser);
         redirectAttributes.addFlashAttribute("savedSuccess", true);
-        return "redirect:/appUser/list";
+        return "redirect:/";
     }
 
     @PostMapping("/login")
@@ -53,10 +59,11 @@ public class AuthController {
         boolean isUser = appUserMapper.checkAppUser(appUserForm, appUser.get());
         if (isUser) {
             redirectAttributes.addFlashAttribute("Login Successfully", true);
+            return "redirect:/dashboard";
         } else {
             redirectAttributes.addFlashAttribute("Login Failed", false);
+            return "redirect:/";
         }
-        return "redirect:/appUser/list";
     }
 
 }
