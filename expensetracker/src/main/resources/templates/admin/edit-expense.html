@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{admin/layout}" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    th:with="navheading='EditExpense' ,dashboardActive='collapsed',expenseListActive='collapsed'">
+
+<th:block layout:fragment="content">
+    <div class="pagetitle">
+        <h1>Edit Expense</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">edit expense</li>
+            </ol>
+        </nav>
+    </div>
+    <section class="section">
+        <div class="row">
+            <div class="col-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Edit Expense</h5>
+                        <form th:action="@{/expense/update}" method="post" th:object="${expenseForm}" id="expenseForm"
+                            enctype="multipart/form-data">
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="title">Item</label>
+                                <div class="col-sm-10">
+                                    <input type="hidden" th:field="*{id}">
+                                    <input type="text" class="form-control" placeholder="Please Enter Item..."
+                                        th:field="*{expenseName}" id="item">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="title">Date</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="Please Enter Date..."
+                                        th:field="*{date}" id="date">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="title">Amount</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="Please Enter Amount..."
+                                        th:field="*{amount}" id="amount">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="description">Description</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" style="height: 100px"
+                                        placeholder="Please Enter Description.." id="description"
+                                        th:field="*{description}"></textarea>
+                                </div>
+                            </div>
+                            <div class="row mb-3 mt-4" style="justify-content: end;">
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary pull-right">Update</button>
+                                    <button type="button" class="btn btn-danger pull-right">Cancel</button>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+</th:block>
+
+<th:block layout:fragment="script">
+
+</th:block>
+
+</html>

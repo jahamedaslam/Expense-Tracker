@@ -13,18 +13,18 @@
 <!--        </li>&lt;!&ndash; End Dashboard Nav &ndash;&gt;-->
 
         <li class="nav-item">
-            <a class="nav-link" th:classappend="${articleAddActive}" th:href="@{/article/add}">
+            <a class="nav-link" th:classappend="${expenseAddActive}" th:href="@{/expense/add}">
                 <i class="bi bi-newspaper"></i>
-                <span>Add Aritcle</span>
+                <span>Add Expense</span>
             </a>
-        </li><!-- End Profile Page Nav -->
+        </li>
 
         <li class="nav-item">
-            <a class="nav-link"  th:classappend="${articleListActive}"  th:href="@{/article/list}">
+            <a class="nav-link"  th:classappend="${expenseListActive}"  th:href="@{/expense/list}">
                 <i class="bi bi-list"></i>
-                <span>List Article</span>
+                <span>List Expense</span>
             </a>
-        </li><!-- End F.A.Q Page Nav -->
+        </li>
     </ul>
 </aside><!-- End Sidebar-->
 </html>
