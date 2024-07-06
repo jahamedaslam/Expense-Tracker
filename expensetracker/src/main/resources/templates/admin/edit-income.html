@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" layout:decorate="~{admin/layout}" xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    th:with="navheading='AddExpense' ,dashboardActive='collapsed',expenseListActive='collapsed',incomeListActive='collapsed',incomeAddActive='collapsed'">
-
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      th:with="navheading='ExpenseList' ,dashboardActive='collapsed',expenseListActive='collapsed',expenseAddActive='collapsed',incomeListActive='collapsed'">
 <head>
-    <title>Add Expense - Expense Tracker</title>
     <style>
         .error-message {
             color: #DC3545;
@@ -14,76 +12,73 @@
 </head>
 <th:block layout:fragment="content">
     <div class="pagetitle">
-        <h1>Create Expense </h1>
+        <h1>Edit Income</h1>
+
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">create expense</li>
+                <li class="breadcrumb-item active">edit income</li>
             </ol>
         </nav>
     </div>
     <section class="section">
-        <div class="row ">
-            <div class="col-8">
+        <div class="row">
+            <div class="col-12">
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Expense Form</h5>
-
-                        <form th:action="@{/expense/post}" method="post" th:object="${expenseForm}"
-                            enctype="multipart/form-data" id="expenseForm">
-
+                        <h5 class="card-title">Edit Income</h5>
+                        <form th:action="@{/income/update}" method="post" th:object="${incomeForm}" id="incomeForm"
+                              enctype="multipart/form-data">
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="item">Item</label>
                                 <div class="col-sm-10">
+                                    <input type="hidden" th:field="*{id}">
                                     <input type="text" class="form-control" placeholder="Please Enter Item..."
-                                        th:field="*{expenseName}" id="item">
+                                           th:field="*{incomeName}" id="item">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="date">Date</label>
                                 <div class="col-sm-10">
-                                    <input type="date" class="form-control" placeholder="Please Enter date..."
-                                        th:field="*{date}" id="date">
+                                    <input type="date" class="form-control" placeholder="Please Enter Date..."
+                                           th:field="*{date}" id="date">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="amount">Amount</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" placeholder="Please Enter Amount..."
-                                        th:field="*{amount}" id="amount">
+                                           th:field="*{amount}" id="amount">
                                 </div>
                             </div>
-
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="description">Description</label>
                                 <div class="col-sm-10">
                                     <textarea class="form-control" style="height: 100px"
-                                        placeholder="Please Enter Description.." id="description"
-                                        th:field="*{description}"></textarea>
+                                              placeholder="Please Enter Description.." id="description"
+                                              th:field="*{description}"></textarea>
                                 </div>
                             </div>
+                            <div class="row mb-3 mt-4" style="justify-content: end;">
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary pull-right">Update</button>
+                                    <button type="button" class="btn btn-danger pull-right">Cancel</button>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
 
-                            <div id="mediaTypeErrorMessage" class="text-danger"></div>
-                    </fieldset>
-
-                    <div class="row mb-3 mt-4" style="justify-content: end;">
-                        <div class="col-sm-10">
-                            <button type="submit" class="btn btn-success pull-right" id="publishButton">Submit</button>
-                            <button type="button" id="cancelButton" class="btn btn-danger pull-right">Cancel</button>
-                        </div>
                     </div>
-                    </form>
                 </div>
+
             </div>
-        </div>
+
         </div>
     </section>
 </th:block>
 
 <th:block layout:fragment="script">
-
-
     <script th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('expenseForm');
@@ -134,7 +129,6 @@
                 });
             });
         });
-
 
     </script>
 </th:block>

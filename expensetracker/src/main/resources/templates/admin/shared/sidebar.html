@@ -11,20 +11,33 @@
                <span>Dashboard</span>
            </a>
        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" th:classappend="${expenseAddActive}" th:href="@{/expense/add}">
-                <i class="bi bi-newspaper"></i>
-                <span>Add Expense</span>
-            </a>
-        </li>
-
         <li class="nav-item">
             <a class="nav-link"  th:classappend="${expenseListActive}"  th:href="@{/expense/list}">
                 <i class="bi bi-list"></i>
                 <span>List Expense</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${expenseAddActive}" th:href="@{/expense/add}">
+                <i class="bi bi-newspaper"></i>
+                <span>Add Expense</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link"  th:classappend="${incomeListActive}"  th:href="@{/income/list}">
+                <i class="bi bi-list"></i>
+                <span>List Income</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${incomeAddActive}" th:href="@{/income/add}">
+                <i class="bi bi-newspaper"></i>
+                <span>Add Income</span>
+            </a>
+        </li>
+
+
+
     </ul>
 </aside><!-- End Sidebar-->
 </html>
