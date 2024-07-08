@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{admin/layout}" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    th:with="navheading='AddExpense' ,dashboardActive='collapsed',expenseListActive='collapsed',expenseAddActive='collapsed',incomeListActive='collapsed',incomeAddActive='collapsed'">
+
+<head>
+    <title>Report - Expense Tracker</title>
+</head>
+
+<body>
+    <th:block layout:fragment="content">
+
+        <div class="pagetitle">
+            <h1>Report</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Report</li>
+                </ol>
+            </nav>
+        </div>
+
+        <section class="section dashboard">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body pt-4">
+                                    <form class="row g-3">
+                                        <div class="col-md-3">
+                                            <label for="from-date" class="form-label">From Date</label>
+                                            <input type="date" class="form-control" id="from-date" placeholder="Please Enter From date...">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="to-date" class="form-label">To Date</label>
+                                            <input type="date" class="form-control" id="to-date" placeholder="Please Enter To date...">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="filter-by-date" class="form-label">Filter By</label>
+                                            <select class="form-select" id="filter-by-date">
+                                                <option selected>...</option>
+                                                <option value="1">Today Report</option>
+                                                <option value="2">This Month Report</option>
+                                                <option value="3">Customize Report</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 d-flex align-items-end">
+                                            <button type="submit" class="btn btn-primary w-50"> <i class="bi bi-search"></i> Search </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+
+                        <div class="col-12">
+                            <div class="card recent-sales overflow-auto">
+
+                                <div class="filter">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i
+                                            class="bi bi-three-dots"></i></a>
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                        <li class="dropdown-header text-start">
+                                        </li>
+
+                                        <li><a class="dropdown-item" href="#">Export PDF</a></li>
+                                        <li><a class="dropdown-item" href="#">Export Excel</a></li>
+                                    </ul>
+                                </div>
+
+
+
+                                <div class="card-body">
+                                    <h5 class="card-title">Recent Sales <span>| Today</span></h5>
+
+                                    <table class="table table-borderless datatable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">S.NO</th>
+                                                <th scope="col">Item</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Income Amount</th>
+                                                <th scope="col">Expense Amout</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row"><a href="#">#2457</a></th>
+                                                <td>Brandon Jacob</td>
+                                                <td><a href="#" class="text-primary">At praesentium minu</a></td>
+                                                <td>$64</td>
+                                                <td><span class="badge bg-success">Approved</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row"><a href="#">#2147</a></th>
+                                                <td>Bridie Kessler</td>
+                                                <td><a href="#" class="text-primary">Blanditiis dolor omnis
+                                                        similique</a></td>
+                                                <td>$47</td>
+                                                <td><span class="badge bg-warning">Pending</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row"><a href="#">#2049</a></th>
+                                                <td>Ashleigh Langosh</td>
+                                                <td><a href="#" class="text-primary">At recusandae consectetur</a>
+                                                </td>
+                                                <td>$147</td>
+                                                <td><span class="badge bg-success">Approved</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row"><a href="#">#2644</a></th>
+                                                <td>Angus Grady</td>
+                                                <td><a href="#" class="text-primar">Ut voluptatem id earum et</a>
+                                                </td>
+                                                <td>$67</td>
+                                                <td><span class="badge bg-danger">Rejected</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row"><a href="#">#2644</a></th>
+                                                <td>Raheem Lehner</td>
+                                                <td><a href="#" class="text-primary">Sunt similique distinctio</a>
+                                                </td>
+                                                <td>$165</td>
+                                                <td><span class="badge bg-success">Approved</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </th:block>
+
+</body>
+
+</html>
