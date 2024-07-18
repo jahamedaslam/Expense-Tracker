@@ -27,28 +27,28 @@
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body pt-4">
-                                    <form class="row g-3">
+                                    <form class="row g-3" th:action="@{/report/report}" method="get">
                                         <div class="col-md-3">
                                             <label for="from-date" class="form-label">From Date</label>
-                                            <input type="date" class="form-control" id="from-date" placeholder="Please Enter From date...">
+                                            <input type="date" class="form-control" id="from-date" name="fromDate" placeholder="Please Enter From date..." th:value="${fromDate}">
                                         </div>
                                         <div class="col-md-3">
                                             <label for="to-date" class="form-label">To Date</label>
-                                            <input type="date" class="form-control" id="to-date" placeholder="Please Enter To date...">
+                                            <input type="date" class="form-control" id="to-date" name="toDate" placeholder="Please Enter To date..." th:value="${toDate}">
                                         </div>
                                         <div class="col-md-3">
                                             <label for="filter-by-date" class="form-label">Filter By</label>
-                                            <select class="form-select" id="filter-by-date">
-                                                <option selected>...</option>
-                                                <option value="1">Today Report</option>
-                                                <option value="2">This Month Report</option>
-                                                <option value="3">Customize Report</option>
+                                            <select class="form-select" id="filter-by-date" name="type">
+                                                <option value="0" th:selected="${type == 0}">Select any one</option>
+                                                <option value="1" th:selected="${type == 1}">Expense</option>
+                                                <option value="2" th:selected="${type == 2}">Income</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 d-flex align-items-end">
                                             <button type="submit" class="btn btn-primary w-50"> <i class="bi bi-search"></i> Search </button>
                                         </div>
                                     </form>
+
                                 </div>
                             </div>
                         </div>
@@ -58,78 +58,31 @@
 
                         <div class="col-12">
                             <div class="card recent-sales overflow-auto">
-
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i
-                                            class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Export PDF</a></li>
-                                        <li><a class="dropdown-item" href="#">Export Excel</a></li>
-                                    </ul>
-                                </div>
-
-
-
-                               <!-- <div class="card-body">
-                                    <h5 class="card-title">Recent Sales <span>| Today</span></h5>
+                                <div class="card-body">
+                                    <h5 class="card-title" th:text="${type == 1} ? 'Expense Report' : 'Income Report'">Report</span></h5>
 
                                     <table class="table table-borderless datatable">
                                         <thead>
                                             <tr>
                                                 <th scope="col">S.NO</th>
-                                                <th scope="col">Item</th>
+                                                <th scope="col">Name</th>
                                                 <th scope="col">Date</th>
-                                                <th scope="col">Income Amount</th>
-                                                <th scope="col">Expense Amout</th>
+                                                <th scope="col">Description</th>
+                                                <th scope="col">Amount</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <th scope="row"><a href="#">#2457</a></th>
-                                                <td>Brandon Jacob</td>
-                                                <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                                                <td>$64</td>
-                                                <td><span class="badge bg-success">Approved</span></td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row"><a href="#">#2147</a></th>
-                                                <td>Bridie Kessler</td>
-                                                <td><a href="#" class="text-primary">Blanditiis dolor omnis
-                                                        similique</a></td>
-                                                <td>$47</td>
-                                                <td><span class="badge bg-warning">Pending</span></td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row"><a href="#">#2049</a></th>
-                                                <td>Ashleigh Langosh</td>
-                                                <td><a href="#" class="text-primary">At recusandae consectetur</a>
-                                                </td>
-                                                <td>$147</td>
-                                                <td><span class="badge bg-success">Approved</span></td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row"><a href="#">#2644</a></th>
-                                                <td>Angus Grady</td>
-                                                <td><a href="#" class="text-primar">Ut voluptatem id earum et</a>
-                                                </td>
-                                                <td>$67</td>
-                                                <td><span class="badge bg-danger">Rejected</span></td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row"><a href="#">#2644</a></th>
-                                                <td>Raheem Lehner</td>
-                                                <td><a href="#" class="text-primary">Sunt similique distinctio</a>
-                                                </td>
-                                                <td>$165</td>
-                                                <td><span class="badge bg-success">Approved</span></td>
-                                            </tr>
+                                        <tr th:each="dailyReport, item : ${report}">
+                                            <th scope="row" th:text="${item.index+1}"></th>
+                                            <td th:text="${dailyReport.name}"></td>
+                                            <td th:text="${dailyReport.date}"></td>
+                                            <td th:text="${dailyReport.description}"></td>
+                                            <td><span th:class="${dailyReport.type == 1} ? 'badge bg-danger' : 'badge bg-success'" th:text="${dailyReport.amount}"></span></td>
+                                        </tr>
                                         </tbody>
                                     </table>
 
-                                </div>-->
+                                </div>
 
                             </div>
                         </div>
