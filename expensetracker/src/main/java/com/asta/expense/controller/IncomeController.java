@@ -74,15 +74,9 @@ public class IncomeController {
         return "redirect:/income/list";
     }
 
-    @PostMapping(value = "/{id}/delete")
-    @ResponseBody
-    public Map<String, Boolean> deleteIncome(@PathVariable String id) {
-        Map<String, Boolean> map = new HashMap<String, Boolean>();
+    @GetMapping("/{id}/delete")
+    public String deleteIncome(@PathVariable String id) {
         Income income = incomeService.deleteIncome(Long.valueOf(id));
-        if (income == null) {
-            map.put("Success", Boolean.FALSE);
-        }
-        map.put("Success", Boolean.TRUE);
-        return map;
+        return "redirect:/income/list";
     }
 }

@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -74,16 +72,9 @@ public class ExpenseController {
         return "redirect:/expense/list";
     }
 
-    @PostMapping(value = "/{id}/delete")
-    @ResponseBody
-    public Map<String, Boolean> deleteExpense(@PathVariable String id) {
-        Map<String, Boolean> map = new HashMap<String, Boolean>();
+    @GetMapping("/{id}/delete")
+    public String deleteExpense(@PathVariable String id) {
         Expense expense = expenseService.deleteExpense(Long.valueOf(id));
-        if (expense == null) {
-            map.put("Success", Boolean.FALSE);
-        }
-        map.put("Success", Boolean.TRUE);
-        return map;
+        return "redirect:/expense/list";
     }
-
 }

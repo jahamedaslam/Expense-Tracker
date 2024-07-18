@@ -46,11 +46,10 @@
                                    data-bs-placement="top" data-bs-title="Edit"
                                    class="btn btn btn-outline-primary btn-round btn-icon">
                                    Edit</a>
-                                <btn class="btn btn btn-outline-danger btn-round btn-icon" data-bs-toggle="tooltip"
-                                     data-bs-placement="top" data-bs-title="Delete" th:data-id="${income.id}"
-                                     onclick="deleteIncome(this)">
+                                <a th:href="@{/income/{id}/delete(id = ${income.id})}"  class="btn btn btn-outline-danger btn-round btn-icon" data-bs-toggle="tooltip"
+                                     data-bs-placement="top" data-bs-title="Delete" >
                                     Delete
-                                </btn>
+                                </a>
                             </td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(incomes)}">
@@ -69,58 +68,6 @@
 
 
 
-</th:block>
-<th:block layout:fragment="script">
-    <script th:inline="javascript">
-        function deleteIncome(obj) {
-            var url = $(obj).data('id') + '/delete';
-
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#dc3545',
-                cancelButtonColor: '#9831B0',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                    $.ajax({
-                        url: url,
-                        type: "POST",
-                        success: function () {
-                            $(obj).parent('td.action-td').parent('tr').remove();
-
-                            Swal.fire(
-                                'Deleted!',
-                                'Your data has been deleted.',
-                                'success'
-                            );
-                            setTimeout(function () {
-                                location.reload();
-                            }, 1000);
-                        },
-                        error: function (xhr, ajaxOptions, thrownError) {
-                            Swal.fire(
-                                'Oops!',
-                                'Somthing went wrong.',
-                                'error'
-                            );
-                        }
-                    });
-                } else {
-                    return;
-                }
-            });
-
-            $(document).ready(function () {
-                $('#expenseTable').DataTable();
-            });
-
-        }
-
-    </script>
 </th:block>
 
 </html>

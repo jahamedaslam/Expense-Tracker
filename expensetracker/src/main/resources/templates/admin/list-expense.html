@@ -7,8 +7,6 @@
     <title>Expense - Expense Tracker</title>
 </head>
 <th:block layout:fragment="content">
-
-
     <div class="pagetitle">
         <h1>Expense List</h1>
         <nav>
@@ -25,102 +23,45 @@
                     <h5 class="card-title"></h5>
                     <table id="expenseTable" class="table justify-content-center">
                         <thead>
-                            <tr style="text-align: center;">
-                                <th scope="col">S.NO</th>
-                                <th scope="col">Item</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Amount</th>
-                                <th scope="col">Action</th>
-                            </tr>
+                        <tr style="text-align: center;">
+                            <th scope="col">S.NO</th>
+                            <th scope="col">Item</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Action</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr style="text-align: center;" th:each="expense, item : ${expenses}">
-                                <td th:text="${item.index + 1}"></td>
-                                <td th:text="${expense.expenseName}"></td>
-                                <td th:text="${expense.date}"></td>
-                                <td th:text="${expense.description}"></td>
-                                <td th:text="${expense.amount}"></td>
-                                <td class="text-primary action-td">
-                                    <a th:href="@{/expense/{id}/edit(id = ${expense.id})}" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" data-bs-title="Edit"
-                                        class="btn btn btn-outline-primary btn-round btn-icon">
-                                       Edit</a>
-                                    <btn class="btn btn btn-outline-danger btn-round btn-icon" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" data-bs-title="Delete" th:data-id="${expense.id}"
-                                        onclick="deleteExpense(this)">
-                                        Delete</i>
-                                    </btn>
-                                </td>
-                            </tr>
-                            <tr th:if="${#lists.isEmpty(expenses)}">
-                                <td colspan="6">
-                                    <div class="d-flex justify-content-center">
-                                        No record available
-                                    </div>
-                                </td>
-                            </tr>
+                        <tr style="text-align: center;" th:each="expense, item : ${expenses}">
+                            <td th:text="${item.index + 1}"></td>
+                            <td th:text="${expense.expenseName}"></td>
+                            <td th:text="${expense.date}"></td>
+                            <td th:text="${expense.description}"></td>
+                            <td th:text="${expense.amount}"></td>
+                            <td class="text-primary action-td">
+                                <a th:href="@{/expense/{id}/edit(id = ${expense.id})}" data-bs-toggle="tooltip"
+                                   data-bs-placement="top" data-bs-title="Edit"
+                                   class="btn btn-outline-primary btn-round btn-icon">
+                                    Edit</a>
+                                <a th:href="@{/expense/{id}/delete(id = ${expense.id})}" class="btn btn-outline-danger btn-round btn-icon"
+                                   data-bs-toggle="tooltip"
+                                   data-bs-placement="top" data-bs-title="Delete" >
+                                    Delete</a>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(expenses)}">
+                            <td colspan="6">
+                                <div class="d-flex justify-content-center">
+                                    No record available
+                                </div>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </section>
-
-
-
 </th:block>
-<th:block layout:fragment="script">
-    <script th:inline="javascript">
-        function deleteExpense(obj) {
-            var url = $(obj).data('id') + '/delete';
-
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#dc3545',
-                cancelButtonColor: '#9831B0',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                    $.ajax({
-                        url: url,
-                        type: "POST",
-                        success: function () {
-                            $(obj).parent('td.action-td').parent('tr').remove();
-
-                            Swal.fire(
-                                'Deleted!',
-                                'Your data has been deleted.',
-                                'success'
-                            );
-                            setTimeout(function () {
-                                location.reload();
-                            }, 1000);
-                        },
-                        error: function (xhr, ajaxOptions, thrownError) {
-                            Swal.fire(
-                                'Oops!',
-                                'Somthing went wrong.',
-                                'error'
-                            );
-                        }
-                    });
-                } else {
-                    return;
-                }
-            });
-
-            $(document).ready(function () {
-                $('#expenseTable').DataTable();
-            });
-
-        }
-
-    </script>
-</th:block>
-
 </html>
