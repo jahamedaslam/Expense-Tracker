@@ -45,11 +45,11 @@
                                 <a th:href="@{/income/{id}/edit(id = ${income.id})}" data-bs-toggle="tooltip"
                                    data-bs-placement="top" data-bs-title="Edit"
                                    class="btn btn btn-outline-primary btn-round btn-icon">
-                                    <i class="bi bi-pencil"></i></a>
+                                   Edit</a>
                                 <btn class="btn btn btn-outline-danger btn-round btn-icon" data-bs-toggle="tooltip"
                                      data-bs-placement="top" data-bs-title="Delete" th:data-id="${income.id}"
                                      onclick="deleteIncome(this)">
-                                    <i class="bi bi-trash" aria-hidden="true"></i>
+                                    Delete
                                 </btn>
                             </td>
                         </tr>
