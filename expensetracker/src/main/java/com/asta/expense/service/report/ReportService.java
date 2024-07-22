@@ -12,5 +12,5 @@ public interface ReportService {
 
     List<DailyReport> getReport(LocalDate fromDate, LocalDate toDate, int type);
 
-    Map<Month, BigDecimal[]> getMonthlyData();
+    Map<String, Object> getMonthlyData();
 }

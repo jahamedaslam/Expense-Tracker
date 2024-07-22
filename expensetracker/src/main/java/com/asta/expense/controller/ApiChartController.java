@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
-import java.time.Month;
 import java.util.Map;
 
 @RestController
@@ -18,7 +16,7 @@ public class ApiChartController {
     ReportService reportService;
 
     @GetMapping("/monthly-data")
-    public Map<Month, BigDecimal[]> getMonthlyData() {
+    public Map<String, Object> getMonthlyData() {
         return reportService.getMonthlyData();
     }
 }

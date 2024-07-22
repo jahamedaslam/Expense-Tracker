@@ -1,84 +1,96 @@
 <!DOCTYPE html>
 <html lang="en" layout:decorate="~{admin/layout}" xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  th:with="navheading='Dashboard', reportListActive='collapsed', expenseAddActive='collapsed', expenseListActive='collapsed', incomeAddActive='collapsed', incomeListActive='collapsed'">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      th:with="navheading='Dashboard',reportListActive='collapsed',expenseAddActive='collapsed',expenseListActive='collapsed',incomeAddActive='collapsed',incomeListActive='collapsed'">
 
 <head>
   <title>Dashboard - Expense Tracker</title>
 </head>
 
 <body>
-  <th:block layout:fragment="content">
-    <div class="pagetitle">
-      <h1>Dashboard</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-      </nav>
-    </div>
 
-    <section class="section dashboard">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="row">
-            <div class="col-xxl-6 col-md-6">
-              <div class="card info-card sales-card">
-                <div class="card-body">
-                  <h5 class="card-title">Expense <span>| Today</span></h5>
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-currency-dollar"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6 th:text="${dashboard.expenseAmount}">145</h6>
-                    </div>
+<th:block layout:fragment="content">
+
+  <div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item active">Dashboard</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="section dashboard">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row">
+          <div class="col-xxl-6 col-md-6">
+            <div class="card info-card sales-card">
+              <div class="card-body">
+                <h5 class="card-title">Expense <span>| Today</span></h5>
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-currency-dollar"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6 th:text="${dashboard.expenseAmount}">145</h6>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-xxl-6 col-md-6">
-              <div class="card info-card revenue-card">
-                <div class="card-body">
-                  <h5 class="card-title">Income <span>| Today</span></h5>
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-currency-dollar"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6 th:text="${dashboard.incomeAmount}">$3,264</h6>
-                    </div>
+          </div>
+          <div class="col-xxl-6 col-md-6">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">Income <span>| Today</span></h5>
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-currency-dollar"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6 th:text="${dashboard.incomeAmount}">$3,264</h6>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="col-12">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Chart <span> Data</span></h5>
-                  <div id="reportsChart"></div>
-                  <script>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Reports <span>/Today</span></h5>
+                <div id="alert" class="alert alert-danger" style="display:none;">Expenses exceed income for the current month!</div>
+                <!-- Line Chart -->
+                <div id="reportsChart"></div>
+
+                <script>
                     document.addEventListener("DOMContentLoaded", () => {
                       fetch('/api/chart/monthly-data')
                         .then(response => response.json())
                         .then(data => {
-                          const categories = Object.keys(data);
-                          const expenses = categories.map(month => data[month][0]);
-                          const incomes = categories.map(month => data[month][1]);
+                          if (data.alert) {
+                            document.getElementById('alert').style.display = 'block';
+                          }
+
+                          const monthlyData = data.monthlyData;
+
+                          const categories = Object.keys(monthlyData);
+                          const expenses = categories.map(month => monthlyData[month][0]);
+                          const incomes = categories.map(month => monthlyData[month][1]);
 
                           new ApexCharts(document.querySelector("#reportsChart"), {
                             series: [{
-                              name: 'Expense',
-                              data: expenses,
+                              name: 'Expenses',
+                              data: expenses
                             }, {
                               name: 'Income',
-                              data: incomes,
+                              data: incomes
                             }],
                             chart: {
                               height: 350,
-                              type: 'area',
+                              type: 'line',
                               toolbar: {
                                 show: false
                               },
@@ -86,16 +98,7 @@
                             markers: {
                               size: 4
                             },
-                            colors: ['#ff0800', '#2eca6a'],
-                            fill: {
-                              type: "gradient",
-                              gradient: {
-                                shadeIntensity: 1,
-                                opacityFrom: 0.3,
-                                opacityTo: 0.4,
-                                stops: [0, 90, 100]
-                              }
-                            },
+                            colors: ['#ff0000', '#00ff00'],
                             dataLabels: {
                               enabled: false
                             },
@@ -104,68 +107,28 @@
                               width: 2
                             },
                             xaxis: {
-                              type: 'category',
                               categories: categories
                             },
                             tooltip: {
                               x: {
-                                format: 'MM/yyyy'
+                                format: 'MMMM'
                               },
                             }
                           }).render();
                         });
                     });
                   </script>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12">
-              <div class="card recent-sales overflow-auto">
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <!-- Uncomment and modify as necessary for Recent Sales Table
-              <div class="card-body">
-                  <h5 class="card-title">Recent Sales <span>| Today</span></h5>
-                  <table class="table table-borderless datatable">
-                      <thead>
-                          <tr>
-                              <th scope="col">#</th>
-                              <th scope="col">Customer</th>
-                              <th scope="col">Product</th>
-                              <th scope="col">Price</th>
-                              <th scope="col">Status</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <tr>
-                              <th scope="row"><a href="#">#2457</a></th>
-                              <td>Brandon Jacob</td>
-                              <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                              <td>$64</td>
-                              <td><span class="badge bg-success">Approved</span></td>
-                          </tr>
-              </tbody>
-              </table>
-            </div>
-            -->
+                <!-- End Line Chart -->
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  </th:block>
+    </div>
+  </section>
+
+</th:block>
+
 </body>
 
 </html>

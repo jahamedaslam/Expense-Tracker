@@ -13,10 +13,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -66,8 +63,9 @@ public class ReportServiceImpl implements ReportService {
         return report;
     }
 
-    public Map<Month, BigDecimal[]> getMonthlyData() {
+    public Map<String, Object> getMonthlyData() {
         Map<Month, BigDecimal[]> monthlyData = new EnumMap<>(Month.class);
+        Map<String, Object> response = new HashMap<>();
 
         for (Month month : Month.values()) {
             monthlyData.put(month, new BigDecimal[]{BigDecimal.ZERO, BigDecimal.ZERO});
@@ -86,6 +84,13 @@ public class ReportServiceImpl implements ReportService {
             monthlyData.get(month)[1] = monthlyData.get(month)[1].add(income.getAmount());
         }
 
-        return monthlyData;
+        LocalDate now = LocalDate.now();
+        Month currentMonth = now.getMonth();
+        boolean alert = monthlyData.get(currentMonth)[0].compareTo(monthlyData.get(currentMonth)[1]) > 0;
+
+        response.put("monthlyData", monthlyData);
+        response.put("alert", alert);
+
+        return response;
     }
 }
