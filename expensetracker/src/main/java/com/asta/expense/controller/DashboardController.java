@@ -1,9 +1,6 @@
 package com.asta.expense.controller;
 
-import com.asta.expense.mapper.DashboardData;
 import com.asta.expense.mapper.DashboardMapper;
-import com.asta.expense.model.Expense;
-import com.asta.expense.model.Income;
 import com.asta.expense.payload.dto.DashboardForm;
 import com.asta.expense.service.expense.ExpenseService;
 import com.asta.expense.service.income.IncomeService;
@@ -13,12 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("dashboard")
